@@ -1,0 +1,192 @@
+/ - if get_recently_viewed_products.any?
+/   .container
+/     #recent
+/       .container
+/         .row
+/           = render partial: "spree/shared/recently_viewed_products"
+div#footer
+  .container
+    .row
+      .col-md-3.footer-links.col-xs-6
+        span 
+          strong Help
+        ul
+          / - Spree::Page.visible.sidebar_links.each do |page|
+          /   - if page.foreign_link.present? 
+          /     li
+          /       = link_to page.title, page.foreign_link, {:target => "_blank"}
+          /   - else
+          /     li
+          /       - page_uri = Rails.application.routes.named_routes[:spree].path.spec.to_s == '/' ? page.slug : Rails.application.routes.named_routes[:spree].path.spec.to_s + page.slug
+          /       = link_to page.title, page_uri, class: (request.fullpath.gsub('//','/') == page_uri) ? "current" : "" 
+          li= link_to "Payments", ""
+          li= link_to "Saved Cards", ""
+          li= link_to "Shipping", ""
+          li= link_to "Cancellation & Returns", ""
+          li= link_to "FAQ", ""
+          li= link_to "Report Infringement"
+
+      .col-md-3.footer-links.col-xs-6
+        span 
+          strong CoinClub
+        ul
+          / - Spree::Page.visible.footer_links.each do |page|
+          /   - if page.foreign_link.present? 
+          /     li
+          /       = link_to page.title, page.foreign_link, {:target => "_blank"}
+          /   - else
+          /     li
+          /       - page_uri = Rails.application.routes.named_routes[:spree].path.spec.to_s == '/' ? page.slug : Rails.application.routes.named_routes[:spree].path.spec.to_s + page.slug
+          /       = link_to page.title, page_uri, class: (request.fullpath.gsub('//','/') == page_uri) ? "current" : "" 
+          li= link_to "Contact Us", ""
+          li= link_to "About Us", ""
+          li= link_to "Careers", ""
+          li= link_to "Blog", ""
+          li= link_to "Press", ""
+          li= link_to "Slash N", ""
+      .col-md-3.footer-links.col-xs-6
+        span 
+          strong Media
+        ul
+          / - Spree::Page.visible.header_links.each do |page|
+          /   - if page.foreign_link.present? 
+          /     li
+          /       = link_to page.title, page.foreign_link, {:target => "_blank"}
+          /   - else
+          /     li
+          /       - page_uri = Rails.application.routes.named_routes[:spree].path.spec.to_s == '/' ? page.slug : Rails.application.routes.named_routes[:spree].path.spec.to_s + page.slug
+                / # = link_to page.title, page_uri, class: (request.fullpath.gsub('//','/') == page_uri) ? "current" : "" 
+          li= link_to "How To Use"
+          li= link_to "User Guide"
+      .col-md-3.footer-links.col-xs-6
+        span
+          strong MISC
+        ul
+          li= link_to "Online Shopping", ""
+          li= link_to "Affiliate", ""
+          li= link_to "Gift Card", ""
+          li= link_to "Coinclub First Subscription", ""
+          li= link_to "eLearning FAQ", ""
+    .row#policy-div
+      ul
+        a href=""
+          li
+            span.fa &#xf041;
+            span.cap TRACK YOUR OFFER
+        a href=""
+          li
+            span.fa &#xf1b8;
+            span.cap FREE & EASY RETURN
+        a href=""
+          li.lastunit
+            span.fa &#xf00d;
+            span.cap ONLINE CANCELLATIONS
+    .row#social-div
+      .col-md-4
+        span Policies:   
+        = link_to "Term of use", ""
+        |    |    
+        = link_to "Security", ""
+        |    |     
+        = link_to "Privacy", ""
+        |    |     
+        = link_to "Infringement", ""
+      .col-md-5
+        span &copy; 2014-2020 deal.coinclub.io
+      .col-md-3
+        span KEEP IN TOUCH
+        a href=""
+          span.social.fa &#xf082;
+        a href=""
+          span.social.fa &#xf081;
+        a href=""
+          span.social.fa &#xf0d4;
+        a href=""
+          span.social.fa &#xf166;
+    .row#top-stores-div
+      .col-md-12.brand-store
+        span Top Stores :     
+        = link_to "Brand Directory", ""
+        |   |   
+        = link_to "Stores Directory", ""
+      .clearfix
+      .col-md-12.visited
+        span MOST SEARCHED FOR ON COINCLUB:  
+        = link_to "Samsung S6", ""
+        |    |   
+        = link_to "Honor 6", ""
+        |    |   
+        = link_to "Electronic Sale", ""
+      .col-md-12.visited
+        span MOBILES:  
+        = link_to "Samsung S6", ""
+        |    |   
+        = link_to "Honor 6", ""
+      .col-md-12.visited
+        span HOME:   
+        = link_to "Samsung S6", ""
+        |    |   
+        = link_to "Honor 6", ""
+      .col-md-12.visited
+        span LARGE APPLIANCES:     
+        = link_to "Samsung S6", ""
+        |    |   
+        = link_to "Honor 6", ""
+      .col-md-12.visited
+        span CAMERA:      
+        = link_to "Samsung S6", ""
+        |    |   
+        = link_to "Honor 6", ""
+      .col-md-12.visited
+        span TVS:      
+        = link_to "Samsung S6", ""
+        |    |   
+        = link_to "Honor 6", ""
+      .col-md-12.visited
+        span WATCHES:     
+        = link_to "Samsung S6", ""
+        |    |   
+        = link_to "Honor 6", ""
+      .col-md-12.visited
+        span CLOTHING
+        = link_to "Samsung S6", ""
+        |    |   
+        = link_to "Honor 6", ""
+    .row#payment-method-div
+      .col-md-12
+        span PAYMENT METHOD
+        br    
+        i.payment.fa title='Paypal' &#xf1f4;
+        i.payment.card.fa title='Visa'  &#xf1f0;
+        i.payment.card.fa title='MasterCard'  &#xf1f1;
+        i.payment.card.fa title='Bitcoin'  &#xf15a;
+    .row#lorem-ipsum-text
+      .col-md-12
+        p This is some text that we use when we build websites if a client does not have their own Privacy Policy. I thought I would share it to everyone, cut and paste if you wish and if you want to say where you got – please do..! ; This privacy policy sets out how “[business name]” uses and protects any information that you give “[business name]” when you use this website. “[business name]” is committed to ensuring that your privacy is protected. Should we ask you to provide certain information by which you can be identified when using this website, then you can be assured that it will only be used in accordance with this privacy statement.	“[business name]” may change this policy from time to time by updating this page. You should check this page from time to time to ensure that you are happy with any changes. This policy is effective from [date].
+  		  
+        h5 What we do with the information we gather
+        p We require this information to understand your needs and provide you with a better service, and in particular for the following reasons:
+        ul
+          li Internal record keeping.
+          li We may use the information to improve our products and services.
+          li We may periodically send promotional emails about new products, special offers or other information which we think you may find interesting using the email address which you have provided.
+          li From time to time, we may also use your information to contact you for market research purposes. We may contact you by email, phone, fax or mail. We may use the information to customise the website according to your interests.
+        h5 What we collect
+        p We may collect the following information:
+        ul
+  		    li Name and job title
+  		    li Contact information including email address
+  		    li Demographic information such as postcode, preferences and interests
+  		    li Other information relevant to customer surveys and/or offers
+        p Should we ask you to provide certain information by which you can be identified when using this website, then you can be assured that it will only be used in accordance with this privacy statement.  “[business name]” may change this policy from time to time by updating this page. You should check this page from time to time to ensure that you are happy with any changes.
+  .sub-footer
+    .container
+      .row
+        .col-md-6
+          #navbar-collapse
+            p= "Copyright &copy; 2014-15 <a href='/' class='company-link'>Musicxz</a>. All Rights Reserved".html_safe
+        .col-md-6
+          #navbar-collapse-2
+            p= "<a href='/'>Home</a> | <a href=''>About Us</a> | <a href=''>Contact Us</a> | <a href=''>List</a>".html_safe
+
+			

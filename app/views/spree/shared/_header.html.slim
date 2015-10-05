@@ -1,0 +1,59 @@
+header.heading
+  .container
+    .row.top-bar
+      .col-md-3
+        .logo-section
+          = link_to "Musixz", root_path, class: "logo-text"
+      .col-md-2
+
+      .col-md-7
+        ul.menu
+          li.menu-item
+            a.nav-item-link href=""
+              span Sell With Us
+          li.full-menu.menu-item
+            a.nav-item-link href=""
+              i.icon.fa &#xf107;
+              span Shop By Category
+          .spread-menu
+            .menu-categories
+              ul
+                li.main-menu
+                  | Paintings
+                li.main-menu
+                  | Statue
+                li.main-menu
+                  | Carten
+                li.main-menu
+                  | Table Cloths
+          li.menu-item
+            a.nav-item-link href=""
+              i.icon.fa.fa-map-marker
+              span Track Order
+          - if spree_user_signed_in?
+            li.menu-item.last-menu
+              a.nav-item-link href=""
+                = spree_current_user.try(:first_name) || spree_current_user.email
+          - else
+	          li.menu-item
+	            a.nav-item-link href=""
+	              span Signup
+	          li.menu-item.last-menu
+	            a.nav-item-link href=new_spree_user_session_path
+	              span Login
+    / .row
+    /   .col-md-12.lower-heading
+	   /    .col-md-3
+	   /      .logo-section
+	   /        = link_to "Musixz", root_path
+	   /    .col-md-7
+	   /      form.search-product
+	   /        input.search-box autocompelete="off" name="q" type="text"
+	   /        button.search-btn
+	   /          i.fa.fa-search
+	   /    .col-md-2
+	   /      .cart-div
+	   /        a href=""
+	   /          i.fa.fa-cart
+	   /          span.key CART
+	   /          span.value 0

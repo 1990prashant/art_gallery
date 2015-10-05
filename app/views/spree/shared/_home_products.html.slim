@@ -1,0 +1,17 @@
+.col-md-3
+  .home-product-container
+    .col-md-12.home-product-header
+    a href= product_path(product.slug) 
+      .col-md-12.home-product-thumbnails
+        .aligner
+          = image_tag(product.images.first.try(:attachment).try(:url), class: "home-product-image")
+    a.name-link href= product_path(product.slug) 
+      .col-md-12.home-product-name
+        = link_to product.name, product_path(product.slug)
+    .col-md-12.home-product-price
+      span.dollar= display_price(product)
+    .col-md-12.home-compare
+      = form_for :order, url: spree.populate_orders_path do |f|
+        input type='hidden' name= 'quantity' value='1'
+        input type='hidden' name= 'variant_id' value= product.try(:order_variants).try(:first).try(:id)
+        = submit_tag "Add To Cart", class: "btn btn-default btn-info btn-xs", :type => :submit

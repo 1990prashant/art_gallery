@@ -1,0 +1,15 @@
+- unless @product_properties.empty?  
+  %h3{class: "product-section-title"}
+    = Spree.t('properties')
+  %table{id: "product-properties", class: "table", "data-hook" =>""}
+    - property_values = @product_properties.collect{|pp| [pp.property.presentation, pp.value]}.group_by {|v| v[0]}
+    %tbody
+      - property_values.each do |key, values| 
+        - css_class = cycle('even', 'odd', :name => "properties") 
+        %tr{class: "#{css_class}"}
+          %td
+            %strong
+              = key
+          %td
+            = values.collect(&:last).join(", ")
+      - reset_cycle('properties') 

@@ -1,0 +1,64 @@
+- url_options = { "action" => "filter" }.merge(params)
+- url_options.merge!(controller.filter_url_settings) if controller.respond_to?(:filter_url_settings)
+.filters
+  = form_tag(url_options, :method => :get, :id => "filter") do
+    .filter-actions
+      = submit_tag "Filter", :class => 'btn btn-success btn-sm col-md-7'
+      = link_to "Clear All", products_path, class: 'btn btn-primary btn-sm col-md-offset-1 col-md-4'
+      .clearfix
+    .filter
+      .filter-block
+        .filter-heading= Spree.t :shop_by_price
+        .filter-ul
+          Price range:
+          %input{type: "text", id: "amount", readonly: "true", style:"border:0; color:#f6931f; font-weight:bold;"}
+          - @max_min = [Spree::Product.where(id: products_and_hits.last.try(:first)).first.try(:price).to_i, Spree::Product.where(id: products_and_hits.last.try(:last)).first.try(:price).to_i]
+          - min_range, max_range = @max_min.min, @max_min.max
+          - if params["s"] && params["s"]["price"] != nil
+            - price_range = params["s"]["price"].first.split(",")
+            - min_range, max_range = price_range.first, price_range.last
+          %div{id: "slider-range", "data-lower" => min_range, "data-upper" => max_range, "data-max" => max_range, "data-min" => min_range}
+          %input{type: "hidden", id: "price_range", name: "s[price][]", value: (params["s"]["price"].try(:first) || [min_range, max_range].join(",")), disabled: true}
+    = select_tag :order_by, options_for_select(PRICE_SORT.invert, params[:order_by]), class: "form-control price-sort"
+    - Spree::Sunspot::Setup.query_filters.filters.each do |filter|
+      - next unless filter.display?
+      - if lookup_context.find_all("spree/filters/_#{filter.search_param}").any?
+        = render :partial => "spree/filters/#{filter.search_param}", :locals => { :filter => filter }
+      - elsif filter.search_param.to_s == "property_id"
+        .filter
+          - solr_search = @searcher.solr_search
+          - solr_rows = solr_search.facet(filter.search_param).rows
+          - filter.html_values.each_with_index do |hv, index|
+            - solr_rows.each do |row|
+              - if row.value == hv[:orig_value]
+                - if Spree::TaxonPropertyFilter.where(:property_id => row.instance.id).present?
+                  .filter-block
+                    - taxon_ids = @taxon.self_and_descendants.flatten.collect(&:id)
+                    - @values = row.instance.product_properties.joins(product: :taxons).where(product_id: @products.collect(&:id)).where(spree_taxons: {id: taxon_ids}).uniq.collect(&:value)
+                    - unless @values.blank?
+                      .filter-heading= "Shop by #{row.instance.name}"
+                      %ul{class: "filter-ul"}
+                        - @values.group_by{ |v| v}.each do |key, value|
+                          - selected = params[:s]['product_property_name'].include? key if params[:s] and params[:s]['product_property_name'].present?
+                          %li
+                            %label{class: "filter_field checkbox-inline", for: "product_property_name_#{key}" }
+                              = check_box_tag "s[product_property_name][]", key, selected, { :id => "product_property_name_#{key}" }
+                              = "#{key} <span class='count'>(#{value.size})</span>".html_safe
+      - elsif filter.search_param.to_s != "price"
+        .filter{"data-field" => filter.search_param}
+          .filter-block
+            .filter-heading= Spree.t :shop_by_taxonomy, :taxonomy => filter.display_name
+            %ul{class: "filter-ul"}
+              - solr_search = @searcher.solr_search
+              - solr_rows = solr_search.facet(filter.search_param).rows
+              - filter.html_values.each_with_index do |hv, index|
+                - selected = params[:s][filter.search_param].include? hv[:value].to_s if params[:s] and params[:s][filter.search_param].present?
+                - checkbox_id = "#{filter.search_param}_#{hv[:value]}"
+                - count = solr_rows.find{|r| r.value == hv[:orig_value]}.try(:count) || 0 
+                - if count > 0
+                  %li{class: "nowrap"}
+                    %label{class: "filter_field #{count > 0 ? 'nonzero' : 'zero'} checkbox-inline", for: checkbox_id}
+                      = check_box_tag "s[#{filter.search_param}][]", hv[:value], selected, { :id => checkbox_id }
+                      = "#{hv[:display]} <span class='count'>(#{count})</span>".html_safe
+    .hidden
+      %input{type: "hidden", name: "s[category_ids]", value: params["s"]["category_ids"]}

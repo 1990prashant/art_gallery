@@ -1,0 +1,22 @@
+.col-md-3.product-container
+  .col-md-12.header
+  a href= product_path(product.slug) 
+    .col-md-12.thumbnails
+      .aligner
+        = image_tag(product.images.first.try(:attachment).try(:url), class: "product-image")
+  a href= product_path(product.slug) 
+    .col-md-12.name
+      = link_to product.name, product_path(product.slug)
+  .col-md-12.price
+    span.dollar= display_price(product)
+    span.btc= "#{sprintf('%.5f', product.price.to_f/@price_index_bitcoin)} BTC"
+  .col-md-12.properties
+    ul
+      - product.properties.limit(5).each do |property|
+        li
+          = property.name
+  .col-md-12.compare
+    = form_for :order, url: spree.populate_orders_path do |f|
+      input type='hidden' name= 'quantity' value='1'
+      input type='hidden' name= 'variant_id' value= product.order_variants.first.try(:id)
+      = submit_tag "Add To Cart", class: "btn btn-default btn-info btn-xs", :type => :submit

@@ -1,0 +1,13 @@
+/ .container
+/   .col-md-3
+/     div data-hook= "taxon_sidebar_navigation"
+/       = render :partial => 'spree/shared/filters'
+/ div class="home-div" data-hook="homepage_products"
+- if params[:sort].blank?
+  .row
+    .col-md-3
+      / # = render partial: "filters"
+    .col-md-9
+      .row.products
+        - @products.each do |product|
+          = render partial: "products", locals: {product: product}

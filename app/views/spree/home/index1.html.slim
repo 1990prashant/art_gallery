@@ -1,0 +1,10 @@
+.home-page
+  .carousel-section
+    .carousel-image-container
+      = image_tag "carousel.jpg", class: "carousel-image"
+  .products-section
+    .products-heading
+      | Popular Products
+    .products-body
+      - @products.each do |product|
+        = render partial: "spree/shared/home_products", locals: {product: product}

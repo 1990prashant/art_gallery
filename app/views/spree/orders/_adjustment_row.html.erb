@@ -1,0 +1,12 @@
+<tr class="adjustment">
+  <td colspan="4" align='right'>
+  	<% if label == "Paypal adjustments" %>
+  		<h5>PayPal Fees</h5>
+  	<% else %>
+  		<h5><%= type %>: <%= label %></h5>
+  	<% end %>
+  </td>
+  <td colspan='2'>
+    <h5><%= Spree::Money.new(adjustments.sum(&:amount), :currency => @order.currency) %></h5>
+  </td>
+</tr>

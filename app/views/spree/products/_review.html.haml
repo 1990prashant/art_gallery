@@ -1,0 +1,15 @@
+/ - if spree_current_user.review_product?(product)
+/   Rate this product :
+/   - if raiting = product.raitings.find_by_spree_user_id(spree_current_user.id)
+/     %div.show_page_star_container{"data-number" => 10, 'data-url' => "/products/#{product.id}/raitings", 'data-score' => raiting.rate, }
+/   - else
+/     %div.show_page_star_container{"data-number" => 10, 'data-url' => "/products/#{product.id}/raitings", 'data-score' => 0 }
+/   - if store = product.store and spree_current_user.review_store?(store)
+/     %br
+/     Rate the store :
+/     %b
+/       = store.name
+/     - if raiting = store.raitings.find_by_spree_user_id(spree_current_user.id)
+/       %div.show_page_star_container{"data-number" => 10, 'data-readOnly' => 'true', 'data-url' => "/stores/#{store.id}/raitings", 'data-score' => raiting.rate }
+/     - else
+/       %div.show_page_star_container#store_raiting{"data-number" => 10, 'data-readOnly' => false, 'data-url' => "/stores/#{store.id}/raitings", 'data-score' => 0 }

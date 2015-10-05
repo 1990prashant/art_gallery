@@ -1,0 +1,90 @@
+.container
+  .row
+    .col-md-12
+      .breadcrumb-section
+    .col-md-4.product-images
+      .image-panel
+        .image-area
+          = render :partial => 'image'
+      .image-options
+        = render :partial => 'thumbnails'
+    .col-md-6.specification
+      .col-md-12
+        .product-title
+          h3.item-name= accurate_title
+        .col-md-12.item-ratings
+          .col-md-5.review
+            / = render :partial => 'raitings/review', :locals => { :product => @product }
+          .col-md-7
+            .q-a
+              = link_to "Q&A", "", class: "qa-link"
+        .col-md-12.short-description
+          .col-md-4.first-col - 1 Year Brand Warrenty
+          .col-md-4 - lorem ipsum
+          .col-md-4 - Utility: Everyday Use
+          .col-md-4.first-col - lorem ipsum
+          .col-md-4 - lorem ipsum
+          .col-md-4= link_to "View all item details", "#"
+      .col-md-12.product-price
+        span.static-text Pay
+        span.dynamic-text= display_price(@product)
+        span.emi-options EMI starts at $2[?]
+      .col-md-12.product-offer
+        .p-offer-wrap.dotted-border
+	         .item-offer
+	           |Buy 3 get one free available with this
+	         .offer-btn
+	          = link_to "VIEW ALL OFFERS", "#", class: "btn btn-success"
+      .col-md-12.product-shipment
+        .p-shipment-item
+          span Item is available at pin code: 110075
+          = link_to "Change", "#", class: "pin-change"
+        .p-shipment-item
+          -unless @product.try(:shipping_duration).blank?
+            span= "Item will be delivered in #{@product.shipping_duration}."
+          - else
+            span= "Item will be delivered in 2 - 7 business days"
+          - unless @product.try(:shipping_cost).blank?
+            span= " with: #{number_to_currency(@product.shipping_cost)}"
+          - else
+            span Free Delivery
+      .col-md-12.buy-options
+        .col-md-5
+          = link_to "BUY NOW", "#", class: "btn btn-default buy-now-btn"
+        .col-md-5
+          = link_to "Add To Cart", "#", class: "btn btn-default add-to-cart-btn"
+    .col-md-2.store-brand
+      .col-md-12.brand-intro
+        .brand-image
+          / = image_tag @product.store.try(:logo).try(:url), class: "store-logo"
+      .col-md-12.expand-store
+        .brand-detail
+          = link_to "View Store >", "", class: "store-link"
+      .col-md-12.detail-block
+        .store-details
+          - unless @product.present?
+            .col-md-12.store-name-tag Sold by:
+            .col-md-12.store-name= link_to @product.store.try(:name), store_path(@product.store_id)
+            .col-md-12.store-rating
+              label.label-blue
+                b= @product.store.average_raiting.to_i
+                |/5
+              span.span-blur &nbsp; Seller Score
+          - else
+            .available-at
+              .col-md-12.store-name-tag Sold by:
+              .col-md-12.store-name Art&Craft
+              .col-md-12.store-rating
+                label.label-blue
+                  b 4.2
+                  |/5
+                span.span-blur &nbsp; Seller Score
+  .row
+    .details-box
+      .col-md-10.details-caption
+        h3 Item Details
+      .col-md-10.description-details
+        = render :partial => 'properties'
+      .col-md-10.description-details
+        = product_description(@product) rescue Spree.t(:product_has_no_description)
+
